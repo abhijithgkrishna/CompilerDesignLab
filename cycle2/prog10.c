@@ -2,54 +2,61 @@
 #include <string.h>
 
 int n;
+int visited[10];
 
+void clearVisited()
+{
+    for (int i = 0; i < n; i++)
+        visited[i] = 0;
+}
 void closure(int state, int matrix[][n])
 {
     for (int i = 0; i < n; i++)
     {
-        if (matrix[state][i] == 1)
+        if (matrix[state][i] == 1 && visited[i] == 0)
         {
-            printf(", q%d", i);
+            visited[i] = 1;
+            printf(", q%d ", i);
             closure(i, matrix);
         }
     }
-    return;
 }
 
-int main()
+void main()
 {
-    FILE *INPUT = fopen("input10.txt", "r");
-    char state1[3], input[3], state2[3];
+    FILE *INPUT = fopen("ip-eclo.txt", "r");
+    char state1[3], state2[3], symbol[3];
+
     int s1, s2;
 
-    printf("Enter the no of states: ");
-    scanf("%d", &n);
-    int mat[n][n];
+    fscanf(INPUT, "%d", &n);
+    printf("N = %d \n", n);
+
+    int matrix[n][n];
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
-        {
-            mat[i][j] = 0;
-        }
+            matrix[i][j] = 0;
     }
+    clearVisited();
 
-    while (fscanf(INPUT, "%s%s%s", state1, input, state2) != EOF)
+    while (fscanf(INPUT, "%s%s%s", state1, symbol, state2) != EOF)
     {
-        if (strcmp(input, "e") == 0)
+        printf("line \n");
+        if (strcmp(symbol, "e") == 0)
         {
             s1 = state1[1] - '0';
             s2 = state2[1] - '0';
-            mat[s1][s2] = 1;
+            matrix[s1][s2] = 1;
         }
     }
-
-    printf("Epsilon closure of\n");
-    for (int k = 0; k < n; k++)
+    printf("Epsilon closure \n --------------------- \n");
+    for (int i = 0; i < n; i++)
     {
-        printf("q%d : q%d", k, k);
-        closure(k, mat);
+        visited[i] = 1;
+        printf("q%d : q%d ", i, i);
+        closure(i, matrix);
         printf("\n");
+        clearVisited();
     }
-
-    return 0;
 }
