@@ -46,7 +46,10 @@ void first(char c)
 {
     int k;
     if (!isupper(c))
+    {
         f[m++] = c;
+        return;
+    }
     for (k = 0; k < n; k++)
     {
         if (a[k][0] == c)

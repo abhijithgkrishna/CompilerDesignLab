@@ -4,3 +4,4 @@
 *.tab.c
 *.tab.h
 /study
+.vscode
